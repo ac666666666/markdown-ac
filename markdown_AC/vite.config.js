@@ -11,36 +11,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-              },
-              cacheKeyWillBeUsed: async ({ request }) => {
-                return `${request.url}?v=1`
-              }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'gstatic-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-              }
-            }
-          }
-        ]
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}']
       },
-      includeAssets: ['icon.webp', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['icon-192x192.svg', 'icon-512x512.svg'],
       manifest: {
         name: 'Markdown 预览器',
         short_name: 'Markdown',
@@ -50,25 +23,18 @@ export default defineConfig({
         display: 'standalone',
         scope: '/',
         start_url: '/',
-        orientation: 'portrait-primary',
         icons: [
           {
-            src: 'icon.webp',
+            src: 'icon-192x192.svg',
             sizes: '192x192',
-            type: 'image/webp',
-            purpose: 'any maskable'
+            type: 'image/svg+xml'
           },
           {
-            src: 'icon.webp',
+            src: 'icon-512x512.svg',
             sizes: '512x512',
-            type: 'image/webp',
-            purpose: 'any maskable'
+            type: 'image/svg+xml'
           }
-        ],
-        categories: ['productivity', 'utilities'],
-        lang: 'zh-CN',
-        dir: 'ltr',
-        prefer_related_applications: false
+        ]
       },
       devOptions: {
         enabled: true
