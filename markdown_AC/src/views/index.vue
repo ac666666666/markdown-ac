@@ -72,7 +72,77 @@
             </svg>
           </button>
           <ThemeSelector />
+          <!-- PWA安装按钮 -->
+          <button
+            v-if="isInstallable"
+            class="btn-icon install-btn"
+            @click="installApp"
+            title="安装应用"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7,10 12,15 17,10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
         </div>
+      </div>
+
+      <!-- PWA安装提示 -->
+      <div class="install-prompt" v-if="showInstallPrompt">
+        <div class="install-content">
+          <div class="install-info">
+            <svg
+              class="install-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path>
+              <polyline points="14,2 14,8 20,8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10,9 9,9 8,9"></polyline>
+            </svg>
+            <div class="install-text">
+              <h4>安装 Markdown 预览器</h4>
+              <p>安装到桌面，享受更好的使用体验</p>
+            </div>
+          </div>
+          <div class="install-actions">
+            <button class="btn-install" @click="installApp">安装</button>
+            <button class="btn-dismiss" @click="dismissInstallPrompt">
+              稍后
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 离线状态提示 -->
+      <div class="offline-indicator" v-if="!isOnline">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M1 1l22 22"></path>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+          <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <line x1="12" y1="20" x2="12.01" y2="20"></line>
+        </svg>
+        <span>离线模式</span>
       </div>
 
       <!-- 搜索栏 -->
@@ -476,6 +546,7 @@ import {
   getMarkdownSummary,
 } from "../utils/markdown.js";
 import { useDocumentStorage } from "../composables/useDocumentStorage.js";
+import { usePWA } from "../composables/usePWA.js";
 import CodeBlock from "../components/CodeBlock.vue";
 import TableOfContents from "../components/TableOfContents.vue";
 import FileUpload from "../components/FileUpload.vue";
@@ -497,6 +568,15 @@ const {
   loadCurrentDocumentId,
   getStorageUsage,
 } = documentStorage.createDocumentManager(getAllMarkdownFiles());
+
+// 初始化PWA功能
+const {
+  isOnline,
+  isInstallable,
+  showInstallPrompt,
+  installApp,
+  dismissInstallPrompt,
+} = usePWA();
 
 // 响应式数据
 const currentDocument = ref(null);
@@ -1153,6 +1233,154 @@ onUnmounted(() => {
 .btn-storage svg {
   width: 0.875rem;
   height: 0.875rem;
+}
+
+/* PWA安装按钮样式 */
+.install-btn {
+  background: var(--theme-primary) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.install-btn:hover {
+  background: var(--theme-primary) !important;
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+/* PWA安装提示样式 */
+.install-prompt {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--theme-background);
+  border: 1px solid var(--theme-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 90%;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.install-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.install-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.install-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--theme-primary);
+  flex-shrink: 0;
+}
+
+.install-text h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--theme-text);
+}
+
+.install-text p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--theme-secondary);
+}
+
+.install-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.btn-install {
+  background: var(--theme-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-install:hover {
+  background: var(--theme-primary);
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.btn-dismiss {
+  background: transparent;
+  color: var(--theme-secondary);
+  border: 1px solid var(--theme-border);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-dismiss:hover {
+  background: var(--theme-surface);
+  color: var(--theme-text);
+}
+
+/* 离线状态指示器 */
+.offline-indicator {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #f59e0b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.offline-indicator svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 .tag-filter {
@@ -1830,6 +2058,32 @@ onUnmounted(() => {
 
   .upload-area {
     padding: 2rem 1rem;
+  }
+
+  .install-prompt {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    max-width: none;
+    width: auto;
+  }
+  
+  .offline-indicator {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .install-actions {
+    flex-direction: column;
+  }
+  
+  .btn-install,
+  .btn-dismiss {
+    width: 100%;
+    justify-content: center;
   }
 }
 
