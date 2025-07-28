@@ -1,0 +1,72 @@
+// 主样式文件 - 统一导入所有样式
+
+// 导入变量
+@import './variables.scss';
+
+// 导入全局样式
+@import './global.scss';
+
+// 导入 Markdown 样式
+@import './markdown.scss';
+
+// 应用特定样式
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: $spacing-lg;
+}
+
+// 移动端适配
+@media (max-width: $breakpoint-md) {
+  .main-content {
+    padding: $spacing-md;
+  }
+}
+
+// PWA 相关样式
+.pwa-install-prompt {
+  position: fixed;
+  bottom: $spacing-lg;
+  left: $spacing-lg;
+  right: $spacing-lg;
+  background: $primary-color;
+  color: white;
+  padding: $spacing-md;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  z-index: $z-index-modal;
+  
+  .install-button {
+    background: white;
+    color: $primary-color;
+    border: none;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius;
+    font-weight: $font-weight-bold;
+    margin-left: $spacing-md;
+    cursor: pointer;
+    
+    &:hover {
+      background: $bg-secondary;
+    }
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    float: right;
+    line-height: 1;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

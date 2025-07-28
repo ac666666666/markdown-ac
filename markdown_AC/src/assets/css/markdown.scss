@@ -1,0 +1,307 @@
+@import './variables.scss';
+
+// Markdown 内容样式
+.markdown-content {
+  line-height: $line-height-lg;
+  color: $text-primary;
+  word-wrap: break-word;
+
+  // 标题样式
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: $spacing-xl;
+    margin-bottom: $spacing-lg;
+    font-weight: $font-weight-bold;
+    line-height: 1.25;
+    color: $text-primary;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid $border-color;
+    padding-bottom: $spacing-sm;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-xs;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  h5 {
+    font-size: 0.875rem;
+  }
+
+  h6 {
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+
+  // 段落样式
+  p {
+    margin-bottom: $spacing-lg;
+    line-height: $line-height-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // 列表样式
+  ul, ol {
+    margin-bottom: $spacing-lg;
+    padding-left: $spacing-xl;
+
+    li {
+      margin-bottom: $spacing-sm;
+      line-height: $line-height-lg;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul, ol {
+      margin-top: $spacing-sm;
+      margin-bottom: 0;
+    }
+  }
+
+  // 引用样式
+  blockquote {
+    margin: $spacing-lg 0;
+    padding: $spacing-md $spacing-lg;
+    border-left: 4px solid $primary-color;
+    background-color: $bg-secondary;
+    color: $text-secondary;
+    font-style: italic;
+
+    p {
+      margin-bottom: $spacing-sm;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // 代码样式
+  code {
+    font-family: $font-family-monospace;
+    font-size: 0.875em;
+    background-color: rgba($secondary-color, 0.1);
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    color: $danger-color;
+  }
+
+  pre {
+    margin: $spacing-lg 0;
+    padding: $spacing-lg;
+    background-color: #f6f8fa;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    overflow-x: auto;
+    line-height: 1.45;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: 0.875rem;
+    }
+  }
+
+  // 表格样式
+  table {
+    width: 100%;
+    margin: $spacing-lg 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid $border-color;
+
+    th, td {
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      border-bottom: 1px solid $border-color;
+      border-right: 1px solid $border-color;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    th {
+      background-color: $bg-secondary;
+      font-weight: $font-weight-bold;
+      color: $text-primary;
+    }
+
+    tbody tr {
+      &:nth-child(even) {
+        background-color: rgba($secondary-color, 0.05);
+      }
+
+      &:hover {
+        background-color: rgba($primary-color, 0.05);
+      }
+    }
+  }
+
+  // 分割线样式
+  hr {
+    margin: $spacing-xl 0;
+    border: none;
+    border-top: 2px solid $border-color;
+    background: none;
+  }
+
+  // 链接样式
+  a {
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      color: darken($primary-color, 15%);
+      text-decoration: underline;
+    }
+  }
+
+  // 图片样式
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: $spacing-lg 0;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow-sm;
+  }
+
+  // 强调样式
+  strong, b {
+    font-weight: $font-weight-bold;
+  }
+
+  em, i {
+    font-style: italic;
+  }
+
+  // 删除线
+  del, s {
+    text-decoration: line-through;
+    color: $text-muted;
+  }
+
+  // 标记样式
+  mark {
+    background-color: $warning-color;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+  }
+
+  // 任务列表样式
+  .task-list-item {
+    list-style: none;
+    margin-left: -$spacing-lg;
+
+    input[type="checkbox"] {
+      margin-right: $spacing-sm;
+    }
+  }
+}
+
+// 代码高亮样式 (基于 highlight.js)
+.hljs {
+  background: #f6f8fa !important;
+  color: #24292e;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #d73a49;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #005cc5;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #032f62;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #6f42c1;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title,
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #22863a;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #032f62;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #e36209;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #005cc5;
+}
+
+.hljs-meta {
+  color: #005cc5;
+}
+
+.hljs-deletion {
+  background: #ffeef0;
+}
+
+.hljs-addition {
+  background: #f0fff4;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
